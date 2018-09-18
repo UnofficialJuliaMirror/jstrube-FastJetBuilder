@@ -13,30 +13,39 @@ sources = [
 ]
 
 # Bash recipe for building across all platforms
+# FIXME
+# because the libs don't have their dependencies specified properly, 
+# we're hacking the libs together into a single one for the time being
 script = raw"""
 cd $WORKSPACE/srcdir/fastjet-3.3.1/
 ./configure --prefix=$prefix --host=$target
 make
 make install
-
+cd ${prefix}/lib
+if [ "$target" = "x86_64-linux-gnu" ]
+then
+	g++ -fPIC -shared -o libfastjetall.so -Wl,--whole-archive *.so -Wl,--no-whole-archive
+elif [ "$target" = "x86_64-apple-darwin14" ]
+then
+	echo "$target is currently not supported"
+fi
 """
 
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
 platforms = [
-    Linux(:x86_64, :glibc),
-    Linux(:armv7l, :glibc, :eabihf),
-    Linux(:powerpc64le, :glibc),
-    MacOS(:x86_64)
+    Linux(:x86_64),
+#    MacOS(:x86_64)
 ]
 
 # The products that we will ensure are always built
 products(prefix) = [
-    LibraryProduct(prefix, "libsiscone", :libsiscone),
-    LibraryProduct(prefix, "libfastjet", :libfastjet),
-    LibraryProduct(prefix, "libfastjettools", :libfastjettools),
-    LibraryProduct(prefix, "libsiscone_spherical", :libsisconeSpherical),
-    LibraryProduct(prefix, "libfastjetplugins", :libfastjetplugins)
+    LibraryProduct(prefix, "libfastjetall", :libfastjetall),
+#    LibraryProduct(prefix, "libsiscone", :libsiscone),
+#    LibraryProduct(prefix, "libfastjet", :libfastjet),
+#    LibraryProduct(prefix, "libfastjettools", :libfastjettools),
+#    LibraryProduct(prefix, "libsiscone_spherical", :libsisconeSpherical),
+#    LibraryProduct(prefix, "libfastjetplugins", :libfastjetplugins)
 ]
 
 # Dependencies that must be installed before this package can be built
