@@ -1,8 +1,8 @@
 language: julia
 os:
-  - linux
+- linux
 julia:
-  - 1.0
+- 1.0
 notifications:
   email: false
 git:
@@ -10,30 +10,24 @@ git:
 cache:
   timeout: 1000
   directories:
-    - downloads
+  - downloads
 env:
   global:
-    - BINARYBUILDER_DOWNLOADS_CACHE=downloads
-    - BINARYBUILDER_AUTOMATIC_APPLE=true
+  - BINARYBUILDER_DOWNLOADS_CACHE=downloads
+  - BINARYBUILDER_AUTOMATIC_APPLE=true
 sudo: required
-
-# Before anything else, get the latest versions of things
 before_script:
-  - julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryProvider", rev="master"))'
-  - julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryBuilder", rev="master"))'
+- julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryProvider", rev="master"))'
+- julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryBuilder", rev="master"))'
 script:
-  - julia build_tarballs.jl
-
-
+- julia build_tarballs.jl
 deploy:
-    provider: releases
-    api_key:
-        # Note; this api_key is only valid for jstrube/FastJetBuilder; you need
-        # to make your own: https://docs.travis-ci.com/user/deployment/releases/
-        secure: Rh1JIgq9uvNY9s5xC5H1DbyKOp0qbbe+AzYEJI39HmA6z7hI80OxgD/lUARKy7bKRQXTVMxcsfOh3AjIl3s2wQ3TqmxNm92XSxMa/ORsPCn6jadM+9xvpc6cjNtDB5zZmyROa7wzNfiGlwfjIaCNhy7CaM4qhrjSUaPCxT6HpcRmqVC1SGiBRCxDwFgWt+MTJ2gQ38k09JpuHs54eh7s4PRf4WdpUea05t9R3HyfBkvQUI0jrDq0386P9ZF2ib3ucfdGSPAw4AGUJFpmRzQvrO68XMxz7EjZJvp+06XuEhUoXVYOI6hDTgEQAnV66DJXBKBem8c5a44qQmK094WEh3AhzYLWHnXHZJ4R6R+OOHfqNbQ9x3XV7FvnetSc5JQGhKHWrqf8dUHTNbLR7Bj1ODumqv2A11VhTNfFyNDRDP1zLQAlLGL+NUZq/m69FiHrRGJmSXAPHqV6Jah/teJSWWTYz/1I6+RnARUQL7EtLOZuJbsXM9plDN0IGQiEo1DAS2mtZKYFFD6Km5D+zepchz5TVhyElD91gpqfIrBJ+hqG3/iPpiqrgTV5OlxI901CGaW+S3XcndbqMJPELNg7vDr3tUtJUarlekCVlX/TM7jiQJPM7pyleMGZeRKnGVz6kFIm4oYUzv9mjX3NZm3CH9V/Razt3K/fU56cLatoAs0=
-    file_glob: true
-    file: products/*
-    skip_cleanup: true
-    on:
-        repo: jstrube/FastJetBuilder
-        tags: true
+  provider: releases
+  api_key:
+    secure: HPelRznKfZYj9U0jJB7N4Gy8hSoaEurv7eNCA6s3D9xKOt5JWFLP1kdSmGh2SVpE2GAHv0R5Is+Q31sY+znB0n5MAm6xoratTMwe2yQYVaS5uMkqGL+lVvvaMc+cYpbO7U4CgCRB182z+eebBLA9/83zwCcztozq4F8MAeJoO4f4XdCjWC+tgShDvkezSX10OLNssHlq/ZjOk1rgnLd8BXVPdC9TNKUgodTMpv+k+JzxsXjWcLkOQscsAA//wiQ4m8eQhc0Ua/nOhU1PWMNxgjmSI7GsQGHjgqJ/3vZTfs+OaLmYWPC/IBrygi+VxaDSYZlYWE4yAaaO8tLWo/GFz8pPC9wYkXtTfvTbyqSUyhPjImhukmbxG/Np1AYS6zagAnWMRxJ0lsIzkchXVTjU9A+lYYx9/0ZtqwYN1SvvfJUZDef345TO8Tvqn9SV/N3hwwGEEoxg29SnGxtrvbn8nnTGLx5U2KA7XLDEpoG8lT3v/NAKDqI80Dy/sOh6iXn4ewVeO5SswZ77HZVmn2zj/Cq/6gCnTUYeYfU+IJ+cuv/Cf+ExA3pZxVKdzhiEJYkiVKMHrGkzeoQxcr+M2KXrEJPSU38hhL6EAM2zUgGFj1ntmn3cF/AQeJ7rEDYHje0HGX5XYO8Um9vFnoFobqHrp1VTslUDhq0Ft2fVO3P8LqU=
+  file_glob: true
+  file: products/*
+  skip_cleanup: true
+  on:
+    repo: jstrube/FastJetBuilder
+    tags: true
