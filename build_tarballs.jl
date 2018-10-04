@@ -3,12 +3,11 @@
 using BinaryBuilder
 
 name = "FastJetBuilder"
-version = v"0.1.0"
 
 # Collection of sources required to build FastJetBuilder
 sources = [
-    "http://fastjet.fr/repository/snapshots/fastjet-3.3.2-devel-20180927-rev4379.tar.gz" =>
-    "6e8aca6d15a647fcc4a2bda6144a40f5b5ea203a459a5893263d1978b87c6402",
+    "http://www.fastjet.fr/repo/fastjet-3.3.2.tar.gz" =>
+    "3f59af13bfc54182c6bb0b0a6a8541b409c6fda5d105f17e03c4cce8db9963c2",
 
 ]
 
@@ -27,12 +26,13 @@ cd ${prefix}/lib
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
 platforms = [
-    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc4)),
-    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc7)),
-    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc8)),
+#    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc4)),
+#    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc7)),
+#    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc8)),
+    MacOS(:x86_64)
 ]
 
-#platforms = expand_gcc_versions(platforms)
+platforms = expand_gcc_versions(platforms)
 
 # The products that we will ensure are always built
 products(prefix) = [
@@ -45,9 +45,13 @@ products(prefix) = [
 
 # Dependencies that must be installed before this package can be built
 dependencies = [
-    
 ]
 
+version_number = get(ENV, "TRAVIS_TAG", "")
+if version_number == ""
+    version_number = "v0.99"
+end
+
 # Build the tarballs, and possibly a `build.jl` as well.
-build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies)
+build_tarballs(ARGS, name, VersionNumber(version_number), sources, script, platforms, products, dependencies)
 
