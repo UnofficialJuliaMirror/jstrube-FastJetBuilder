@@ -26,10 +26,9 @@ cd ${prefix}/lib
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
 platforms = [
-#    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc4)),
-#    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc7)),
-#    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc8)),
-    MacOS(:x86_64)
+    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc4)),
+    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc7)),
+    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc8)),
 ]
 
 platforms = expand_gcc_versions(platforms)
