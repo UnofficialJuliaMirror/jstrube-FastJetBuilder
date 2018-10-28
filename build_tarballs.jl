@@ -17,6 +17,8 @@ sources = [
 # we're hacking the libs together into a single one for the time being
 script = raw"""
 cd $WORKSPACE/srcdir/fastjet-*/
+CC=`which gcc`
+CXX=`which g++`
 ./configure --prefix=$prefix --host=$target
 make
 make install
@@ -26,6 +28,8 @@ cd ${prefix}/lib
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
 platforms = [
+    MacOS(:x86_64, compiler_abi=CompilerABI(:gcc7)),
+    MacOS(:x86_64, compiler_abi=CompilerABI(:gcc7)),
     Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc4)),
     Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc7)),
     Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc8)),
